@@ -1,0 +1,39 @@
+name: travelling
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: Circular
+      fonts:
+        - asset: assets\fonts\Circular\CircularStd-Black.otf
+        - asset: assets\fonts\Circular\CircularStd-Book.otf
+        - asset: assets\fonts\Circular\CircularStd-BlackItalic.otf
+          style: italic
+        - asset: assets\fonts\Circular\CircularStd-Bold.otf
+          weight: 700 
+    - family: Hiatus
+      fonts:
+        - asset: assets\fonts\Hiatus.otf
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
