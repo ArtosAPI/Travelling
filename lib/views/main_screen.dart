@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 //TODO: implement Bloc
@@ -28,9 +30,9 @@ class _MainScreenBodyState extends State<MainScreenBody> {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 34.0),
-        child: ListView(children: [
+        child: ListView(physics: ClampingScrollPhysics(), children: [
           const SizedBox(
-            height: 50,
+            height: 25,
           ),
           const ChooseLocation(),
           const Text('data'),
@@ -77,20 +79,115 @@ class _MainScreenBodyState extends State<MainScreenBody> {
           SizedBox(
             height: 240,
             child: ListView(
-              children: const [
-                Stack(
-                  children: [
-                    SizedBox(
-                        width: 190,
-                        child: Image(
-                            filterQuality: FilterQuality.none,
-                            image: AssetImage('assets/images/alley_palace.png')))
-                  ],
-                )
-              ],
-            ),
-          )
+                physics: const ClampingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: const[
+                  LocationCard(imagePath: 'assets/images/BrownHouse.png'),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  LocationCard(imagePath: 'assets/images/CastleLake.png'),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  LocationCard(imagePath: 'assets/images/WhiteRedBoat.png'),
+                  SizedBox(
+                    width: 30,
+                  ),
+                ]),
+          ),
+          const SizedBox(height: 25),
         ]));
+  }
+}
+
+class LocationCard extends StatelessWidget {
+  const LocationCard({
+    super.key,
+    required this.imagePath,
+  });
+  final String imagePath;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(30)),
+      child: Container(
+        width: 160,
+        height: 240,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+                image:
+                    AssetImage(imagePath))),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+            bottom: 5,
+            right: 8,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 4, horizontal: 15),
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 119, 119, 119),
+                      borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(75),
+                          right: Radius.circular(75))),
+                  child: const Text(
+                    'Alley Palace',
+                    style: TextStyle(color: Colors.white),
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 12),
+                      decoration: const BoxDecoration(
+                          color:
+                              Color.fromARGB(255, 119, 119, 119),
+                          borderRadius: BorderRadius.horizontal(
+                              left: Radius.circular(50),
+                              right: Radius.circular(50))),
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color:
+                                Color.fromARGB(255, 240, 220, 47),
+                          ),
+                          Text(
+                            ' 4.5 ',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      )),
+                  IconButton(
+                    style: const ButtonStyle(
+                        fixedSize: MaterialStatePropertyAll(
+                            Size.fromRadius(20)),
+                        backgroundColor: MaterialStatePropertyAll(
+                            Colors.white),
+                        shape: MaterialStatePropertyAll(
+                            CircleBorder())),
+                    icon: const Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    ),
+                    onPressed: () {},
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
