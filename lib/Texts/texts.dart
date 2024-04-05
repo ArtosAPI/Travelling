@@ -5,35 +5,48 @@ class Texts {
   static Texts instance = Texts._();
 
   Texts._() {
-    header = const TextStyle(
-        fontFamily: 'Hiatus',
-        fontSize: 116,
-        color: Colors.white,
-        letterSpacing: 8.5);
-    textStyle1 = GoogleFonts.montserrat().copyWith(fontSize: 24);
-    textStyle2 = const TextStyle(
-      fontFamily: 'Circular',
-      fontSize: 14,
-    );
+    {
+      header = const TextStyle(
+          fontFamily: 'Hiatus',
+          fontSize: 116,
+          color: Colors.white,
+          letterSpacing: 8.5);
 
-    textw1 = RichText(
-      textAlign: TextAlign.start,
-        text: TextSpan(text: text1, style: textStyle1, children: [
-      TextSpan(
-        text: text2,
-        style: textStyle1.copyWith(fontSize: 40, fontWeight: FontWeight.bold),
-      )
-    ]));
+      textStyle1 = GoogleFonts.montserrat().copyWith(fontSize: 24);
+
+      textStyle2 = const TextStyle(
+        fontFamily: 'Circular',
+        fontSize: 14,
+      );
+    }
   }
 
   late TextStyle header;
   late TextStyle textStyle1;
   late TextStyle textStyle2;
 
-  late RichText textw1;
-  static const text1 = '''Plan your 
-''';
-static const text2 = '''Luxurious 
-Vacation''';
-  static const text3 = 'Explore';
+  static const Map<String, String> texts = {
+    'planYour': '''Plan your 
+''',
+    'luxuriousVacation': '''Luxurious 
+Vacation''',
+    'explore': 'Explore',
+    'popular': 'Popular',
+    'seeAll': 'See all',
+    'find': 'Find things to do',
+  };
+
+  static const List<String> locations = [
+    'Aspen, USA',
+    'GTFO, USA',
+    'Moscow, Russia'
+  ];
+  // static final String axplore = locations[0].split(', ')[0];
+
+  static const List<String> enjoyCategories = [
+    'Location',
+    'Hotels',
+    'Food',
+    'Adventure'
+  ];
 }

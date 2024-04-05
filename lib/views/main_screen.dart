@@ -1,25 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+import 'package:travelling/Texts/texts.dart';
 
 //TODO: implement Bloc
 class MainScreen extends StatelessWidget {
-  MainScreen({super.key});
+  const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavBar(),
-      body: MainScreenBody(),
+      body: const MainScreenBody(),
     );
   }
 }
 
 class MainScreenBody extends StatefulWidget {
-  MainScreenBody({super.key});
-  List<bool> selections = List.generate(5, (index) => false);
-  int selectedItem = 0;
+  const MainScreenBody({super.key});
 
   @override
   State<MainScreenBody> createState() => _MainScreenBodyState();
@@ -30,49 +26,21 @@ class _MainScreenBodyState extends State<MainScreenBody> {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 34.0),
-        child: ListView(physics: ClampingScrollPhysics(), children: [
+        child: ListView(children: [
           const SizedBox(
             height: 25,
           ),
-          const ChooseLocation(),
-          const Text('data'),
+          ChooseLocation(),
           const SizedBox(height: 35),
           const SearchField(),
           const SizedBox(height: 35),
-          SizedBox(
-              height: 45,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                //TODO: here bloc
-                children: List.generate(4, (index) {
-                  return SizedBox(
-                      width: widget.selectedItem == index ? null : 125,
-                      child: FilledButton(
-                          onPressed: () {
-                            setState(() {
-                              widget.selectedItem = index;
-                            });
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                widget.selectedItem == index
-                                    ? const Color.fromRGBO(228, 239, 255, 1)
-                                    : Colors.transparent),
-                          ),
-                          child: Text('Adventure',
-                              style: TextStyle(
-                                  color: widget.selectedItem == index
-                                      ? const Color.fromARGB(255, 0, 140, 255)
-                                      : Colors.grey,
-                                  fontWeight: FontWeight.bold))));
-                }),
-              )),
+          const EnjoyThings(),
           const SizedBox(height: 35),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('data'),
-              Text('data'),
+              Text(Texts.texts['popular']!),
+              Text(Texts.texts['seeAll']!),
             ],
           ),
           const SizedBox(height: 15),
@@ -81,7 +49,7 @@ class _MainScreenBodyState extends State<MainScreenBody> {
             child: ListView(
                 physics: const ClampingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                children: const[
+                children: const [
                   LocationCard(imagePath: 'assets/images/BrownHouse.png'),
                   SizedBox(
                     width: 30,
@@ -91,9 +59,6 @@ class _MainScreenBodyState extends State<MainScreenBody> {
                     width: 30,
                   ),
                   LocationCard(imagePath: 'assets/images/WhiteRedBoat.png'),
-                  SizedBox(
-                    width: 30,
-                  ),
                 ]),
           ),
           const SizedBox(height: 25),
@@ -117,9 +82,7 @@ class LocationCard extends StatelessWidget {
         height: 240,
         decoration: BoxDecoration(
             image: DecorationImage(
-              fit: BoxFit.cover,
-                image:
-                    AssetImage(imagePath))),
+                fit: BoxFit.cover, image: AssetImage(imagePath))),
         child: Padding(
           padding: const EdgeInsets.only(
             left: 15,
@@ -131,8 +94,8 @@ class LocationCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 4, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
                   decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 119, 119, 119),
                       borderRadius: BorderRadius.horizontal(
@@ -149,8 +112,7 @@ class LocationCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 4, horizontal: 12),
                       decoration: const BoxDecoration(
-                          color:
-                              Color.fromARGB(255, 119, 119, 119),
+                          color: Color.fromARGB(255, 119, 119, 119),
                           borderRadius: BorderRadius.horizontal(
                               left: Radius.circular(50),
                               right: Radius.circular(50))),
@@ -158,8 +120,7 @@ class LocationCard extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.star,
-                            color:
-                                Color.fromARGB(255, 240, 220, 47),
+                            color: Color.fromARGB(255, 240, 220, 47),
                           ),
                           Text(
                             ' 4.5 ',
@@ -169,12 +130,10 @@ class LocationCard extends StatelessWidget {
                       )),
                   IconButton(
                     style: const ButtonStyle(
-                        fixedSize: MaterialStatePropertyAll(
-                            Size.fromRadius(20)),
-                        backgroundColor: MaterialStatePropertyAll(
-                            Colors.white),
-                        shape: MaterialStatePropertyAll(
-                            CircleBorder())),
+                        fixedSize:
+                            MaterialStatePropertyAll(Size.fromRadius(20)),
+                        backgroundColor: MaterialStatePropertyAll(Colors.white),
+                        shape: MaterialStatePropertyAll(CircleBorder())),
                     icon: const Icon(
                       Icons.favorite,
                       color: Colors.red,
@@ -192,31 +151,78 @@ class LocationCard extends StatelessWidget {
 }
 
 //TODO: here bloc
-class ChooseLocation extends StatelessWidget {
+class ChooseLocation extends StatefulWidget {
   const ChooseLocation({
     super.key,
   });
 
   @override
+  State<ChooseLocation> createState() => _ChooseLocationState();
+}
+
+class _ChooseLocationState extends State<ChooseLocation> {
+  String currentLocation = Texts.locations[0];
+
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('data'),
-        SizedBox(
-          width: 150,
-          height: 40,
-          child: DropdownButton(
-              elevation: 0,
-              underline: const Row(
-                children: [
-                  Icon(Icons.location_on, color: Colors.blue),
-                  Text('data'),
-                ],
-              ),
-              isExpanded: true,
-              items: const [DropdownMenuItem(value: 0, child: Text('data'))],
-              onChanged: (e) {}),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(Texts.texts['explore']!,
+                style: Texts.instance.textStyle1
+                    .copyWith(fontSize: 14, fontWeight: FontWeight.w600)),
+            Container(
+              width: 250,
+              height: 40,
+              color: const Color.fromRGBO(255, 251, 254, 1),
+              child: DropdownButton(
+                  borderRadius: const BorderRadius.all(Radius.circular(25)),
+                  iconSize: 0,
+                  elevation: 0,
+                  underline: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.location_on, color: Colors.blue),
+                      Text(
+                        '  $currentLocation}  ',
+                        style: Texts.instance.textStyle2.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      const Icon(Icons.pin_drop, color: Colors.blue),
+                    ],
+                  ),
+                  isExpanded: true,
+                  items: List.generate(
+                      Texts.locations.length,
+                      (index) => DropdownMenuItem(
+                          value: index,
+                          child: SizedBox(
+                            width: 200,
+                            child: Column(
+                              children: [
+                                Text(Texts.locations[index]),
+                                const Divider()
+                              ],
+                            ),
+                          ))),
+                  onChanged: (e) {
+                    setState(() {
+                      currentLocation = Texts.locations[e ?? 0];
+                    });
+                  }),
+            ),
+          ],
+        ),
+        Text(
+          currentLocation.split(', ')[0],
+          textAlign: TextAlign.start,
+          style: Texts.instance.textStyle1
+              .copyWith(fontSize: 32, fontWeight: FontWeight.w600, height: 0.5),
         ),
       ],
     );
@@ -231,18 +237,19 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TextField(
+    return TextField(
       decoration: InputDecoration(
         filled: true,
-        fillColor: Color.fromARGB(255, 238, 238, 238),
-        contentPadding: EdgeInsets.only(left: 25, top: 42),
+        fillColor: const Color.fromARGB(255, 238, 238, 238),
+        contentPadding: const EdgeInsets.only(left: 25, top: 42),
         isDense: true,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.horizontal(
                 left: Radius.circular(50), right: Radius.circular(50))),
-        hintText: 'Find things to do',
-        prefixIcon: Padding(
+        hintText: Texts.texts['find'],
+        hintStyle: Texts.instance.textStyle2,
+        prefixIcon: const Padding(
           padding: EdgeInsets.only(left: 22, right: 15),
           child: Icon(Icons.wifi_find),
         ),
@@ -251,20 +258,73 @@ class SearchField extends StatelessWidget {
   }
 }
 
+class EnjoyThings extends StatefulWidget {
+  const EnjoyThings({super.key});
+
+  @override
+  State<EnjoyThings> createState() => _EnjoyThingsState();
+}
+
+class _EnjoyThingsState extends State<EnjoyThings> {
+  List<bool> selections = List.generate(5, (index) => false);
+  int selectedItem = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: 45,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          //TODO: here bloc
+          children: List.generate(4, (index) {
+            return SizedBox(
+                width: selectedItem == index ? null : 125,
+                child: FilledButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedItem = index;
+                      });
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                          selectedItem == index
+                              ? const Color.fromRGBO(228, 239, 255, 1)
+                              : Colors.transparent),
+                    ),
+                    child: Text(Texts.enjoyCategories[index],
+                        style: TextStyle(
+                            color: selectedItem == index
+                                ? const Color.fromARGB(255, 0, 140, 255)
+                                : Colors.grey,
+                            fontWeight: FontWeight.bold))));
+          }),
+        ));
+  }
+}
+
 //TODO: here bloc
 class BottomNavBar extends StatefulWidget {
-  BottomNavBar({super.key});
-  int selectedItem = 0;
+  const BottomNavBar({super.key});
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
+  int selectedItem = 0;
+
+  List<IconData> icons = [
+    Icons.travel_explore,
+    Icons.confirmation_num,
+    Icons.favorite,
+    Icons.person,
+  ];
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
     return Container(
       height: height / 12,
       width: width,
@@ -281,51 +341,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
         padding: const EdgeInsets.symmetric(horizontal: 42.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
+          children: List.generate(
+            4,
+            (index) => IconButton(
               onPressed: () {
                 setState(() {
-                  widget.selectedItem = 0;
+                  selectedItem = index - 1;
                 });
               },
               icon: Icon(
-                  color: widget.selectedItem == 0 ? Colors.blue : Colors.grey,
-                  Icons.travel_explore),
+                  color: selectedItem == index - 1 ? Colors.blue : Colors.grey,
+                  icons[index]),
             ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  widget.selectedItem = 1;
-                });
-              },
-              icon: Icon(
-                color: widget.selectedItem == 1 ? Colors.blue : Colors.grey,
-                Icons.confirmation_num,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  widget.selectedItem = 2;
-                });
-              },
-              icon: Icon(
-                color: widget.selectedItem == 2 ? Colors.blue : Colors.grey,
-                Icons.favorite,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  widget.selectedItem = 3;
-                });
-              },
-              icon: Icon(
-                color: widget.selectedItem == 3 ? Colors.blue : Colors.grey,
-                Icons.person,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

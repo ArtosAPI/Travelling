@@ -32,14 +32,25 @@ class FirstScreen extends StatelessWidget {
             Container(
                 padding: EdgeInsets.only(left: 35),
                 alignment: Alignment.centerLeft,
-                child: Texts.instance.textw1),
+                child: RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                        text: Texts.texts['planYour'],
+                        style: Texts.instance.textStyle1,
+                        children: [
+                          TextSpan(
+                            text: Texts.texts['luxuriousVacation'],
+                            style: Texts.instance.textStyle1.copyWith(
+                                fontSize: 40, fontWeight: FontWeight.bold),
+                          )
+                        ]))),
             const SizedBox(height: 35),
             FilledButton(
               onPressed: () {},
               style: const ButtonStyle(
                   minimumSize: MaterialStatePropertyAll(Size(311, 50)),
                   backgroundColor: MaterialStatePropertyAll(Colors.blue)),
-              child: const Text(Texts.text3),
+              child: Text(Texts.texts['explore']!),
             )
           ],
         ),
