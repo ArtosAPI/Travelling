@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:travelling/Texts/texts.dart';
+import 'package:travelling/utils/texts.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({
