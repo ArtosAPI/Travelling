@@ -231,7 +231,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
 
 //TODO: here bloc
 class SearchField extends StatelessWidget {
-  const SearchField({
+  const SearchField({ 
     super.key,
   });
 
@@ -243,11 +243,11 @@ class SearchField extends StatelessWidget {
         fillColor: const Color.fromARGB(255, 238, 238, 238),
         contentPadding: const EdgeInsets.only(left: 25, top: 42),
         isDense: true,
-        border: const OutlineInputBorder(
+        border: const OutlineInputBorder( 
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.horizontal(
                 left: Radius.circular(50), right: Radius.circular(50))),
-        hintText: Texts.texts['find'],
+        hintText: Texts.texts['find'],  
         hintStyle: Texts.instance.textStyle2,
         prefixIcon: const Padding(
           padding: EdgeInsets.only(left: 22, right: 15),
@@ -272,14 +272,14 @@ class _EnjoyThingsState extends State<EnjoyThings> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 45,
+        height: 45, 
         child: ListView(
-          scrollDirection: Axis.horizontal,
+        scrollDirection: Axis.horizontal,
           //TODO: here bloc
           children: List.generate(4, (index) {
             return SizedBox(
-                width: selectedItem == index ? null : 125,
-                child: FilledButton(
+                width: 115, 
+              child: FilledButton(
                     onPressed: () {
                       setState(() {
                         selectedItem = index;
