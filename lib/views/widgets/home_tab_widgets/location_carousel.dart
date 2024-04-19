@@ -20,19 +20,21 @@ class LocationCarousel extends StatelessWidget {
         return ListView(
             physics: const ClampingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            children: List.generate(
-              locationCardModel.locations.length,
-              (index) => Padding(
+            children:
+                List.generate(locationCardModel.locations.length, (index) {
+              print(locationCardModel.locations[index].liked);
+              return Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: LocationCard(
                   imagePath: locationCardModel.locations[index].image,
                   name: locationCardModel.locations[index].name,
                   star: locationCardModel.locations[index].star,
                   description: locationCardModel.locations[index].description,
+                  liked: locationCardModel.locations[index].liked,
                   like: () => locationCardModel.likeLocation(index),
                 ),
-              ),
-            ));
+              );
+            }));
       }),
     );
   }
@@ -45,12 +47,14 @@ class LocationCard extends StatelessWidget {
     required this.name,
     required this.star,
     required this.description,
+    required this.liked,
     required this.like,
   });
   final String imagePath;
   final String name;
   final double star;
   final String description;
+  final bool liked;
   final void Function()? like;
 
   @override
@@ -64,6 +68,8 @@ class LocationCard extends StatelessWidget {
                     name: name,
                     star: star,
                     description: description,
+                    liked: liked,
+                    like: like,
                   ))),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(30)),
@@ -125,9 +131,9 @@ class LocationCard extends StatelessWidget {
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.white),
                           shape: MaterialStatePropertyAll(CircleBorder())),
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.favorite,
-                        color: Colors.red,
+                        color: liked ? Colors.red : Colors.grey,
                       ),
                       onPressed: like,
                     )

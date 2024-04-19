@@ -4,7 +4,6 @@ import 'package:travelling/models/location_card_model.dart';
 import 'package:travelling/models/nav_bar_model.dart';
 import 'package:travelling/views/widgets/main_screen/main_screen_barrel.dart';
 
-//TODO: implement Bloc
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 

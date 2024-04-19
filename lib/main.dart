@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travelling/views/pages/main_screen.dart';
-import 'views/pages/first_screen.dart';
+import 'views/pages/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         routerConfig: GoRouter(routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => FirstScreen(),
+            builder: (context, state) => const SplashScreen(),
           ),
           GoRoute(
             path: '/MainScreen',

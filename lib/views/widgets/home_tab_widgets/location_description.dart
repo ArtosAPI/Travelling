@@ -8,11 +8,15 @@ class LocationDescription extends StatelessWidget {
     required this.name,
     required this.star,
     required this.description,
+    required this.liked,
+    required this.like,
   });
   final String imagePath;
   final String name;
   final double star;
   final String description;
+  final bool liked;
+  final void Function()? like;
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +83,11 @@ class LocationDescription extends StatelessWidget {
                                     MaterialStatePropertyAll(Colors.white),
                                 shape:
                                     MaterialStatePropertyAll(CircleBorder())),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.favorite,
-                              color: Colors.red,
+                              color: liked ? Colors.red : Colors.grey,
                             ),
-                            onPressed: () {},
+                            onPressed: like,
                           ),
                         )),
                   ],

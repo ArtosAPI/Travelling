@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travelling/utils/texts.dart';
 
-class FirstScreen extends StatelessWidget {
-  const FirstScreen({
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({
     super.key,
   });
 

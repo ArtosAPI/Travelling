@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:travelling/utils/locations_cards_info.dart';
 
 class LocationCardsModel extends ChangeNotifier {
-  List<LocationCardModel> locations = List.generate(
-      images.length,
-      (index) => LocationCardModel(
-          image: images[index],
-          name: names[index],
-          star: stars[index],
-          description: descriptions[index]));
+  List<LocationCardModel> locations = locationCards;
 
   void likeLocation(int id) {
     locations[id].like();
