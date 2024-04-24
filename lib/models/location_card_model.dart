@@ -9,9 +9,8 @@ class LocationCardsModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get allLikedLocations {
-    locations.where((element) => element.liked).toList();
-  }
+  List<LocationCardModel> get allLikedLocations =>
+      locations.where((element) => element.liked).toList();
 }
 
 class LocationCardModel {

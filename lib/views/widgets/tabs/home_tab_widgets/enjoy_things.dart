@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../utils/texts.dart';
+import '../../../../utils/texts.dart';
 
 class EnjoyThings extends StatefulWidget {
   const EnjoyThings({super.key});

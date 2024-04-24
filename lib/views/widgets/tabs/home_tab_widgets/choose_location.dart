@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../utils/texts.dart';
+import '../../../../utils/texts.dart';
 
 class ChooseLocation extends StatefulWidget {
   const ChooseLocation({

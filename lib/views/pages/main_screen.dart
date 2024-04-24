@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travelling/models/location_card_model.dart';
 import 'package:travelling/models/nav_bar_model.dart';
 import 'package:travelling/views/widgets/main_screen/favourites_tab.dart';
 import 'package:travelling/views/widgets/main_screen/main_screen_barrel.dart';
+import 'package:travelling/views/widgets/main_screen/profile_tab.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -17,7 +19,7 @@ class MainScreen extends StatelessWidget {
       case 2:
         return const FavouritesTab();
       case 3:
-        return Container(color: Colors.red);
+        return ProfileTab();
       default:
         return const HomeTab();
     }
@@ -33,6 +35,7 @@ class MainScreen extends StatelessWidget {
       child: Consumer(
         builder: (context, NavigationBarModel navBar, child) => Scaffold(
           extendBody: true,
+          extendBodyBehindAppBar: true,
           bottomNavigationBar: BottomNavBar(
             navBarModel: navBar,
           ),

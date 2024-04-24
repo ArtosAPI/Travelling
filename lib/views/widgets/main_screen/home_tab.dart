@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travelling/utils/texts.dart';
-import 'package:travelling/views/widgets/home_tab_widgets/home_tab_barrel.dart';
+import 'package:travelling/views/widgets/tabs/home_tab_widgets/home_tab_barrel.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});

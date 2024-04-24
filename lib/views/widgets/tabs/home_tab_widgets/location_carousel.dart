@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:travelling/firebase_cruds.dart';
 import 'package:travelling/models/location_card_model.dart';
-import 'package:travelling/views/widgets/home_tab_widgets/location_description.dart';
+import 'package:travelling/views/widgets/tabs/home_tab_widgets/location_description.dart';
 
 class LocationCarousel extends StatelessWidget {
   const LocationCarousel({
@@ -22,7 +23,6 @@ class LocationCarousel extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             children:
                 List.generate(locationCardModel.locations.length, (index) {
-              print(locationCardModel.locations[index].liked);
               return Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: LocationCard(
@@ -31,7 +31,17 @@ class LocationCarousel extends StatelessWidget {
                   star: locationCardModel.locations[index].star,
                   description: locationCardModel.locations[index].description,
                   liked: locationCardModel.locations[index].liked,
-                  like: () => locationCardModel.likeLocation(index),
+                  like: () {
+                    locationCardModel.likeLocation(index);
+                    print(MyUser.id);
+                    final allLikedLocationsNames =
+                        locationCardModel.allLikedLocations.map(
+                      (e) {
+                        return e.name;
+                      },
+                    ).toList();
+                    updateLikedCards(allLikedLocationsNames);
+                  },
                 ),
               );
             }));
