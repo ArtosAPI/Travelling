@@ -13,6 +13,7 @@ dependencies:
   google_fonts: ^6.2.1
   go_router: ^13.2.4
   provider: ^6.1.2
+  firebase_core: ^2.30.0
 
 dev_dependencies:
   flutter_test:

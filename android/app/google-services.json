@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "828874697813",
+    "project_id": "travelling-25896",
+    "storage_bucket": "travelling-25896.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828874697813:android:de5d05d663c32c3bb778dc",
+        "android_client_info": {
+          "package_name": "com.example.travelling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828874697813-paake60sv2brl8okrknnobubd2gggpd0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjmtCM0SUlCABsNsnHBgpHJw0HPSTTSIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828874697813-paake60sv2brl8okrknnobubd2gggpd0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "828874697813-s09nofi8uj87mrjbedrqo2e3foqpb45l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.travelling"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

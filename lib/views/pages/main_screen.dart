@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travelling/models/location_card_model.dart';
 import 'package:travelling/models/nav_bar_model.dart';
+import 'package:travelling/views/widgets/main_screen/favourites_tab.dart';
 import 'package:travelling/views/widgets/main_screen/main_screen_barrel.dart';
 
 class MainScreen extends StatelessWidget {
@@ -14,7 +15,7 @@ class MainScreen extends StatelessWidget {
       case 1:
         return Container(color: Colors.green);
       case 2:
-        return Container(color: Colors.blue);
+        return const FavouritesTab();
       case 3:
         return Container(color: Colors.red);
       default:
