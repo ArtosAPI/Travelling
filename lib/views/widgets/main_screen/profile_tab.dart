@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:travelling/firebase_cruds.dart';
+import 'package:travelling/models/profile_settings.dart';
 import 'package:travelling/utils/texts.dart';
 
 class ProfileTab extends StatelessWidget {
   ProfileTab({super.key});
-  bool obscuredText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -28,54 +31,75 @@ class ProfileTab extends StatelessWidget {
           )
         ],
       ),
-      body: ListView(
-        padding: EdgeInsets.all(25),
-        children: [
-          CircleAvatar(
-            maxRadius: width / 3,
-          ),
-          SizedBox(height: 35),
-          Row(
+      body: ChangeNotifierProvider(
+        create: (context) => ProfileSettings(),
+        child: Consumer(builder: (context, ProfileSettings settings, child) {
+          settings.initialAvatarImage();
+          return ListView(
+            padding: EdgeInsets.all(25),
             children: [
-              Text(
-                'Name: ',
-                style: Texts.instance.textStyle1.copyWith(height: 0),
+              GestureDetector(
+                onDoubleTap: () {
+                  settings.setAvatarImage();
+                },
+                child: CircleAvatar(
+                  backgroundImage: settings.image != null
+                      ? MemoryImage(settings.image!)
+                      : null,
+                  maxRadius: width / 3,
+                ),
               ),
-              const Spacer(),
-              Text('Name', style: Texts.instance.textStyle2.copyWith(height: 0))
-            ],
-          ),
-          Divider(),
-          Row(
-            children: [
-              Text(
-                'Email: ',
-                style: Texts.instance.textStyle1.copyWith(height: 0),
+              SizedBox(height: 35),
+              Row(
+                children: [
+                  Text(
+                    'Name: ',
+                    style: Texts.instance.textStyle1.copyWith(height: 0),
+                  ),
+                  const Spacer(),
+                  Text(FirebaseUser.ins.name,
+                      style: Texts.instance.textStyle2.copyWith(height: 0))
+                ],
               ),
-              const Spacer(),
-              Text('Email',
-                  style: Texts.instance.textStyle2.copyWith(height: 0))
-            ],
-          ),
-          Divider(),
-          Row(
-            children: [
-              Text(
-                'Password: ',
-                style: Texts.instance.textStyle1.copyWith(height: 0),
+              Divider(),
+              Row(
+                children: [
+                  Text(
+                    'Email: ',
+                    style: Texts.instance.textStyle1.copyWith(height: 0),
+                  ),
+                  const Spacer(),
+                  Text(FirebaseUser.ins.email,
+                      style: Texts.instance.textStyle2.copyWith(height: 0))
+                ],
               ),
-              const Spacer(),
-              Text(obscuredText ? '********' : 'Password',
-                  style: Texts.instance.textStyle2.copyWith(height: 0)),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.remove_red_eye,
-                    opticalSize: 20,
-                  )),
+              Divider(),
+              Row(
+                children: [
+                  Text(
+                    'Password: ',
+                    style: Texts.instance.textStyle1.copyWith(height: 0),
+                  ),
+                  const Spacer(),
+                  Text(
+                      settings.obscuredText
+                          ? FirebaseUser.ins.password
+                              .replaceAll(RegExp(r'.'), '*')
+                          : FirebaseUser.ins.password,
+                      style: Texts.instance.textStyle2.copyWith(height: 0)),
+                  IconButton(
+                      onPressed: () {
+                        settings.obscureText();
+                      },
+                      icon: const Icon(
+                        Icons.remove_red_eye,
+                        opticalSize: 20,
+                      )),
+                ],
+              ),
             ],
-          ),
-        ],
+          );
+        }),
       ),
     );
   }

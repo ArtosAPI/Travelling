@@ -2,21 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-class MyUser {
-  MyUser._(this.name, this.email, this.password, this.likedCards);
-  static late final MyUser ins;
+class FirebaseUser {
+  FirebaseUser._(this.name, this.email, this.password, this.likedCards);
+  static late final FirebaseUser ins;
   String name, email, password;
   List<dynamic> likedCards;
   static late String id;
 
-  static void init() async {
+  static Future init() async {
     final creds = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: 'ptektov@gmail.com', password: 'pavel1');
     id = await getUserId(creds.user!.email!);
     final user =
         await FirebaseFirestore.instance.collection('Users').doc(id).get();
 
-    ins = MyUser._(
+    ins = FirebaseUser._(
       user.data()!['name'],
       user.data()!['email'],
       user.data()!['password'],
@@ -29,7 +29,7 @@ class MyUser {
   }
 }
 
-void createUser(MyUser user) {
+void createUser(FirebaseUser user) {
   FirebaseFirestore.instance.collection('Users').add({
     'name': user.name,
     'email': user.email,
@@ -39,17 +39,19 @@ void createUser(MyUser user) {
 }
 
 void updateLikedCards(List<dynamic> likedCards) async {
-  final updatedUser =
-      await FirebaseFirestore.instance.collection('Users').doc(MyUser.id).get();
+  final updatedUser = await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(FirebaseUser.id)
+      .get();
 
   final updatedLikedCards = updatedUser.data();
-  MyUser.ins.updateLikedCards(likedCards);
-  updatedLikedCards!['likedCards'] = MyUser.ins.likedCards;
+  FirebaseUser.ins.updateLikedCards(likedCards);
+  updatedLikedCards!['likedCards'] = FirebaseUser.ins.likedCards;
   print(updatedLikedCards!['likedCards']);
 
   await FirebaseFirestore.instance
       .collection('Users')
-      .doc(MyUser.id)
+      .doc(FirebaseUser.id)
       .set(updatedLikedCards);
 }
 

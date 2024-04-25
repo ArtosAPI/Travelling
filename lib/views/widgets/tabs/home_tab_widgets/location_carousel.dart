@@ -33,7 +33,6 @@ class LocationCarousel extends StatelessWidget {
                   liked: locationCardModel.locations[index].liked,
                   like: () {
                     locationCardModel.likeLocation(index);
-                    print(MyUser.id);
                     final allLikedLocationsNames =
                         locationCardModel.allLikedLocations.map(
                       (e) {

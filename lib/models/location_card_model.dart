@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travelling/firebase_cruds.dart';
 import 'package:travelling/utils/locations_cards_info.dart';
 
 class LocationCardsModel extends ChangeNotifier {
@@ -23,7 +24,13 @@ class LocationCardModel {
     required this.name,
     required this.star,
     required this.description,
-  });
+  }) {
+    for (int i = 0; i < FirebaseUser.ins.likedCards.length; i++) {
+      if (FirebaseUser.ins.likedCards[i] == name) {
+        liked = true;
+      }
+    }
+  }
 
   void like() {
     liked = !liked;
