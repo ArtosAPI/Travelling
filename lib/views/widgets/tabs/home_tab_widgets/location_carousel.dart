@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travelling/firebase_cruds.dart';
+import 'package:travelling/firebase/firebase_cruds.dart';
 import 'package:travelling/models/location_card_model.dart';
 import 'package:travelling/views/widgets/tabs/home_tab_widgets/location_description.dart';
 
@@ -87,7 +87,7 @@ class LocationCard extends StatelessWidget {
           height: 240,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  fit: BoxFit.cover, image: AssetImage(imagePath))),
+                  fit: BoxFit.fill, image: AssetImage(imagePath))),
           child: Padding(
             padding: const EdgeInsets.only(
               left: 15,

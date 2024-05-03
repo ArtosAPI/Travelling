@@ -9,9 +9,9 @@ class FirebaseUser {
   List<dynamic> likedCards;
   static late String id;
 
-  static Future init() async {
-    final creds = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: 'ptektov@gmail.com', password: 'pavel1');
+  static Future init(String email, String password) async {
+    final creds = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
     id = await getUserId(creds.user!.email!);
     final user =
         await FirebaseFirestore.instance.collection('Users').doc(id).get();

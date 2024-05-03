@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travelling/firebase_cruds.dart';
+import 'package:travelling/firebase/firebase_cruds.dart';
 import 'package:travelling/utils/locations_cards_info.dart';
 
 class LocationCardsModel extends ChangeNotifier {

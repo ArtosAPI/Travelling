@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Future.delayed(const Duration(seconds: 1, milliseconds: 5),
-          () => context.go('/MainScreen')),
+          () => context.go('/SignInPage')),
       builder: (context, snapshot) => Scaffold(
         body: Container(
           height: double.infinity,

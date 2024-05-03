@@ -2,24 +2,14 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:travelling/firebase_cruds.dart';
+import 'package:travelling/firebase/firebase_cruds.dart';
+import 'package:http/http.dart' as http;
 
-class ProfileSettings extends ChangeNotifier {
-  bool obscuredText = true;
-  String _path = '';
-  Uint8List? image;
+class AvatarImage extends ChangeNotifier {
+  static String _path = '';
+  static Uint8List? image;
 
   void setAvatarImage() async {
-    // try {
-    //   final emailName = FirebaseUser.ins.email.split('@');
-    //   final ref = FirebaseStorage.instance
-    //       .ref()
-    //       .child('gs://travelling-25896.appspot.com/${emailName[0]}');
-
-    //   ref.getData();
-    // } catch (e) {
-    //   print(e);
-    // }
     try {
       final picker = ImagePicker();
       final chosenImage = await picker.pickImage(source: ImageSource.gallery);
@@ -35,22 +25,25 @@ class ProfileSettings extends ChangeNotifier {
     }
   }
 
-  void initialAvatarImage() async {
+  static Future initialAvatarImage() async {
     try {
       final emailName = FirebaseUser.ins.email.split('@');
-      print(emailName);
-      final ref = FirebaseStorage.instance.ref().child('${emailName[0]}');
-      print(ref.fullPath);
+      final ref = FirebaseStorage.instance.ref().child(emailName[0]);
 
-      image = await ref.getData();
+      final url = await ref.getDownloadURL();
+      final responce = await http.get(Uri.parse(url));
+      image = responce.bodyBytes;
     } catch (e) {
       print(e);
     }
-    image = null;
   }
+}
+
+class ProfilePassword extends ChangeNotifier {
+  bool obscurePassword = true;
 
   void obscureText() {
-    obscuredText = !obscuredText;
+    obscurePassword = !obscurePassword;
     notifyListeners();
   }
 }
