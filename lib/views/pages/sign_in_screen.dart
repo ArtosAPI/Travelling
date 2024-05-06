@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travelling/Shared_Prefs/shared_prefs.dart';
 import 'package:travelling/firebase/firebase_cruds.dart';
 import 'package:travelling/models/profile_settings.dart';
 import 'package:travelling/utils/texts.dart';
@@ -15,8 +15,41 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   String? email, password;
-  bool agreedWithPolicement = false;
-  final _key = GlobalKey<FormState>();
+  final _emailKey = GlobalKey<FormFieldState>();
+  final _passwordKey = GlobalKey<FormFieldState>();
+
+  @override
+  void initState() {
+    try {
+      Map<String, dynamic>? data;
+      setState(() {
+        Future.delayed(Duration.zero, () async {
+          data = await Shared.getData();
+
+          if (data!.values.every((element) {
+            if (element is String) {
+              return element.isNotEmpty;
+            } else {
+              return true;
+            }
+          })) {
+            email = data!['email'];
+            password = data!['password'];
+
+            await FirebaseUser.signIn(email!, password!);
+            await AvatarImage.initialAvatarImage();
+
+            FirebaseUser.ins?.name = data!['name'];
+            FirebaseUser.ins?.likedCards = data!['likedCards'];
+
+            context.go('/MainScreen');
+          }
+        });
+      });
+    } catch (e) {}
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +58,6 @@ class _SignInPageState extends State<SignInPage> {
       body: Padding(
         padding: const EdgeInsets.all(25),
         child: Form(
-          key: _key,
           child: ListView(
             children: [
               Align(
@@ -33,22 +65,23 @@ class _SignInPageState extends State<SignInPage> {
                 child: Column(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(75)),
+                      borderRadius: const BorderRadius.all(Radius.circular(75)),
                       child: Container(
                         width: 125,
                         height: 125,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             gradient: LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Color.fromRGBO(20, 125, 219, 1),
-                                  Color.fromRGBO(20, 115, 202, 1),
-                                  Color.fromRGBO(20, 105, 196, 1),
-                                  Color.fromRGBO(20, 95, 165, 1),
-                                  Color.fromRGBO(20, 75, 168, 1),
+                                  Colors.lightBlue[300] as Color,
+                                  Colors.lightBlue[400] as Color,
+                                  Colors.lightBlue,
+                                  Colors.lightBlue[500] as Color,
+                                  Colors.lightBlue[600] as Color,
+                                  Colors.lightBlue[700] as Color,
                                 ]),
-                            image: DecorationImage(
+                            image: const DecorationImage(
                                 image: AssetImage(
                                     'assets/mipmap-xxxhdpi/ic_launcher_adaptive_fore.png'),
                                 fit: BoxFit.cover)),
@@ -61,23 +94,24 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ),
               const SizedBox(
-                height: 55,
+                height: 35,
               ),
               Align(
                   alignment: Alignment.center,
-                  child: Text('Sign in to Treavelling',
+                  child: Text('Sign in',
                       style: Texts.instance.textStyle1
                           .copyWith(fontWeight: FontWeight.bold))),
               const SizedBox(
                 height: 25,
               ),
               TextFormField(
+                key: _emailKey,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     labelText: 'Email', labelStyle: Texts.instance.textStyle2),
                 onChanged: (value) => setState(() {
                   email = value;
-                  _key.currentState!.validate();
+                  _emailKey.currentState!.validate();
                 }),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -86,9 +120,11 @@ class _SignInPageState extends State<SignInPage> {
                   if (!(value.contains('@'))) {
                     return 'Enter valid email adress!';
                   }
+                  return null;
                 },
               ),
               TextFormField(
+                key: _passwordKey,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
                     labelText: 'Password',
@@ -96,34 +132,22 @@ class _SignInPageState extends State<SignInPage> {
                 onChanged: (value) => setState(
                   () {
                     password = value;
-                    _key.currentState!.validate();
+                    _passwordKey.currentState!.validate();
                   },
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Enter your password';
                   }
-                  if (value.length <= 6) {
-                    return 'Password should be at least 6 chars long';
-                  }
+                  return null;
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 6,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Checkbox(
-                    value: agreedWithPolicement,
-                    onChanged: (agreed) {
-                      setState(() {
-                        agreedWithPolicement = !agreedWithPolicement;
-                      });
-                    },
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  Text('Agree with policement'),
-                  Spacer(),
                   GestureDetector(
                       child: Align(
                           alignment: Alignment.centerRight,
@@ -135,28 +159,61 @@ class _SignInPageState extends State<SignInPage> {
                                   decorationColor: Colors.grey[600])))),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Column(
                 children: [
                   GestureDetector(
                       onTap: () async {
-                        final shouldSignIn = _key.currentState!.validate();
+                        _emailKey.currentState!.validate();
+                        _passwordKey.currentState!.validate();
+                        final shouldSignIn =
+                            _emailKey.currentState!.validate() &&
+                                _passwordKey.currentState!.validate();
                         if (shouldSignIn) {
-                          try {
-                            await showDialog(
-                                context: context,
-                                builder: (context) {
+                          await showDialog(
+                              context: context,
+                              builder: (_) {
+                                email = email!.trim();
+                                password = password!.trim();
+                                try {
                                   return FutureBuilder(
-                                      future: FirebaseUser.init(
-                                              email!, password!)
-                                          .then((value) =>
-                                              AvatarImage.initialAvatarImage()),
-                                      builder: (context, AsyncSnapshot snap) {
+                                      future: Future.wait([
+                                        FirebaseUser.signIn(email!, password!),
+                                        AvatarImage.initialAvatarImage()
+                                      ]),
+                                      builder: (_, AsyncSnapshot snap) {
                                         if (snap.connectionState ==
                                             ConnectionState.done) {
-                                          Navigator.pop(context);
+                                          if (snap.data[0] == true) {
+                                            Navigator.pop(context);
+                                            //without delayed operation for some
+                                            //time, there will be an error!
+
+                                            try {
+                                              Shared.setData({
+                                                'email': email,
+                                                'password': password,
+                                                'name': FirebaseUser.ins!.name,
+                                                'likedCards': FirebaseUser.ins!
+                                                    .likedCards as List<String>
+                                              });
+                                            } catch (e) {}
+
+                                            Future.delayed(Duration.zero, () {
+                                              context.go('/MainScreen');
+                                            });
+                                          } else {
+                                            Navigator.pop(context);
+                                            Future.delayed(Duration.zero, () {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content:
+                                                    Text('No person found'),
+                                              ));
+                                            });
+                                          }
                                         }
                                         return Center(
                                           child: Container(
@@ -165,13 +222,13 @@ class _SignInPageState extends State<SignInPage> {
                                               color: Colors.white,
                                               alignment: Alignment.center,
                                               child:
-                                                  CircularProgressIndicator()),
+                                                  const CircularProgressIndicator()),
                                         );
                                       });
-                                });
-
-                            context.go('/MainScreen');
-                          } catch (e) {}
+                                } on FirebaseException catch (e) {
+                                  return Container();
+                                }
+                              });
                         }
                       },
                       child: Container(
@@ -183,17 +240,22 @@ class _SignInPageState extends State<SignInPage> {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                              Colors.blue[300] as Color,
-                              Colors.blue[400] as Color
+                              Colors.lightBlue[400] as Color,
+                              Colors.lightBlue,
+                              Colors.lightBlue[500] as Color,
                             ])),
                         child: const Text(
                           'Sign in',
                         ),
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 6,
                   ),
-                  GestureDetector(child: Text('Or Sign up')),
+                  GestureDetector(
+                      onTap: () {
+                        context.go("/SignUpPage");
+                      },
+                      child: const Text('Or Sign up')),
                 ],
               ),
             ],

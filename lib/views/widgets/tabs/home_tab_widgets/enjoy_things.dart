@@ -18,7 +18,6 @@ class _EnjoyThingsState extends State<EnjoyThings> {
         height: 45,
         child: ListView(
           scrollDirection: Axis.horizontal,
-          //TODO: here bloc
           children: List.generate(4, (index) {
             return SizedBox(
                 width: 115,

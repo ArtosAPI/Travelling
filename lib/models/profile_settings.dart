@@ -17,17 +17,15 @@ class AvatarImage extends ChangeNotifier {
       _path = chosenImage.path;
       notifyListeners();
 
-      final emailName = FirebaseUser.ins.email.split('@');
+      final emailName = FirebaseUser.ins!.email.split('@');
       final ref = FirebaseStorage.instance.ref().child(emailName[0]);
       ref.putFile(File(_path));
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   static Future initialAvatarImage() async {
     try {
-      final emailName = FirebaseUser.ins.email.split('@');
+      final emailName = FirebaseUser.ins!.email.split('@');
       final ref = FirebaseStorage.instance.ref().child(emailName[0]);
 
       final url = await ref.getDownloadURL();

@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:travelling/firebase/firebase_cruds.dart';
 import 'package:travelling/models/profile_settings.dart';
 import 'package:travelling/utils/texts.dart';
+import 'package:travelling/views/pages/setting_screen.dart';
 
 class ProfileTab extends StatelessWidget {
-  ProfileTab({super.key});
+  const ProfileTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,12 @@ class ProfileTab extends StatelessWidget {
           elevation: 0,
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingsPage()));
+                },
                 icon: const Icon(
                   Icons.settings,
                   size: 25,
@@ -34,9 +40,9 @@ class ProfileTab extends StatelessWidget {
               ChangeNotifierProvider(create: (context) => ProfilePassword())
             ],
             child: ListView(
-              padding: EdgeInsets.all(25),
+              padding: const EdgeInsets.all(25),
               children: [
-                SizedBox(height: 35),
+                const SizedBox(height: 35),
                 Consumer(builder: (context, AvatarImage settings, child) {
                   return GestureDetector(
                       onDoubleTap: () {
@@ -49,7 +55,7 @@ class ProfileTab extends StatelessWidget {
                         maxRadius: width / 3,
                       ));
                 }),
-                SizedBox(height: 35),
+                const SizedBox(height: 35),
                 Row(
                   children: [
                     Text(
@@ -57,11 +63,11 @@ class ProfileTab extends StatelessWidget {
                       style: Texts.instance.textStyle1.copyWith(height: 0),
                     ),
                     const Spacer(),
-                    Text(FirebaseUser.ins.name,
+                    Text(FirebaseUser.ins!.name,
                         style: Texts.instance.textStyle2.copyWith(height: 0))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Text(
@@ -69,11 +75,11 @@ class ProfileTab extends StatelessWidget {
                       style: Texts.instance.textStyle1.copyWith(height: 0),
                     ),
                     const Spacer(),
-                    Text(FirebaseUser.ins.email,
+                    Text(FirebaseUser.ins!.email,
                         style: Texts.instance.textStyle2.copyWith(height: 0))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Consumer(builder: (_, ProfilePassword profilePassword, child) {
                   return Row(
                     children: [
@@ -84,9 +90,9 @@ class ProfileTab extends StatelessWidget {
                       const Spacer(),
                       Text(
                           profilePassword.obscurePassword
-                              ? FirebaseUser.ins.password
+                              ? FirebaseUser.ins!.password
                                   .replaceAll(RegExp(r'.'), '*')
-                              : FirebaseUser.ins.password,
+                              : FirebaseUser.ins!.password,
                           style: Texts.instance.textStyle2.copyWith(height: 0)),
                       IconButton(
                           onPressed: () {
@@ -110,7 +116,7 @@ class InfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      foregroundDecoration: MagnifierDecoration(),
+      foregroundDecoration: const MagnifierDecoration(),
     );
   }
 }

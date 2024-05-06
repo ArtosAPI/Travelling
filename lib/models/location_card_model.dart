@@ -25,8 +25,8 @@ class LocationCardModel {
     required this.star,
     required this.description,
   }) {
-    for (int i = 0; i < FirebaseUser.ins.likedCards.length; i++) {
-      if (FirebaseUser.ins.likedCards[i] == name) {
+    for (int i = 0; i < FirebaseUser.ins!.likedCards.length; i++) {
+      if (FirebaseUser.ins!.likedCards[i] == name) {
         liked = true;
       }
     }

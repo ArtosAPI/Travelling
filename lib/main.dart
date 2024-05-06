@@ -1,12 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:travelling/firebase/firebase_cruds.dart';
 import 'package:travelling/firebase/firebase_options.dart';
-import 'package:travelling/models/profile_settings.dart';
 import 'package:travelling/views/pages/main_screen.dart';
+import 'package:travelling/views/pages/setting_screen.dart';
 import 'package:travelling/views/pages/sign_in_screen.dart';
+import 'package:travelling/views/pages/sign_up_screen.dart';
 import 'views/pages/splash_screen.dart';
 
 void main() async {
@@ -33,11 +32,19 @@ class MyApp extends StatelessWidget {
           ),
           GoRoute(
             path: '/MainScreen',
-            builder: (context, state) => MainScreen(),
+            builder: (context, state) => const MainScreen(),
           ),
           GoRoute(
             path: '/SignInPage',
-            builder: (context, state) => SignInPage(),
+            builder: (context, state) => const SignInPage(),
+          ),
+          GoRoute(
+            path: '/SignUpPage',
+            builder: (context, state) => const SignUpPage(),
+          ),
+          GoRoute(
+            path: '/SettingsPage',
+            builder: (context, state) => const SettingsPage(),
           )
         ]));
   }

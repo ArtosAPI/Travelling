@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travelling/models/location_card_model.dart';
@@ -19,7 +18,7 @@ class MainScreen extends StatelessWidget {
       case 2:
         return const FavouritesTab();
       case 3:
-        return ProfileTab();
+        return const ProfileTab();
       default:
         return const HomeTab();
     }

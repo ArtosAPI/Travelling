@@ -197,7 +197,7 @@ class Facility extends StatelessWidget {
         child: Container(
           width: 77,
           height: 77,
-          color: Color.fromRGBO(23, 111, 242, 0.171),
+          color: const Color.fromRGBO(23, 111, 242, 0.171),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -15,7 +15,7 @@ class FavouritesTab extends StatelessWidget {
     favouriteLocations.sort((a, b) => a.name.compareTo(b.name));
 
     return Padding(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: ListView.separated(
           itemCount: favouriteLocations.length,
           separatorBuilder: (context, index) => const Divider(
