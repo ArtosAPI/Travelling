@@ -186,7 +186,7 @@ class _SignInPageState extends State<SignInPage> {
                                       builder: (_, AsyncSnapshot snap) {
                                         if (snap.connectionState ==
                                             ConnectionState.done) {
-                                          if (snap.data[0] == true) {
+                                          if (snap.data[0] == 'true') {
                                             Navigator.pop(context);
                                             //without delayed operation for some
                                             //time, there will be an error!
@@ -208,9 +208,8 @@ class _SignInPageState extends State<SignInPage> {
                                             Navigator.pop(context);
                                             Future.delayed(Duration.zero, () {
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content:
-                                                    Text('No person found'),
+                                                  .showSnackBar(SnackBar(
+                                                content: Text(snap.data[0]),
                                               ));
                                             });
                                           }
@@ -225,7 +224,7 @@ class _SignInPageState extends State<SignInPage> {
                                                   const CircularProgressIndicator()),
                                         );
                                       });
-                                } on FirebaseException catch (e) {
+                                } on FirebaseException {
                                   return Container();
                                 }
                               });

@@ -8,7 +8,7 @@ class FirebaseUser {
   List<dynamic> likedCards;
   static late String id;
 
-  static Future<bool> signIn(String email, String password) async {
+  static Future<String> signIn(String email, String password) async {
     try {
       final creds = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
@@ -22,13 +22,13 @@ class FirebaseUser {
         user.data()!['password'],
         user.data()!['likedCards'],
       );
-      return true;
-    } catch (e) {
-      return false;
+      return 'true';
+    } on FirebaseAuthException catch (e) {
+      return e.message.toString();
     }
   }
 
-  static Future<bool> signUp(String email, String name, String password,
+  static Future<String> signUp(String email, String name, String password,
       List<String> likedCards) async {
     try {
       await FirebaseAuth.instance
@@ -51,9 +51,9 @@ class FirebaseUser {
         user.data()!['password'],
         user.data()!['likedCards'],
       );
-      return true;
-    } catch (e) {
-      return false;
+      return 'true';
+    } on FirebaseAuthException catch (e) {
+      return e.message!;
     }
   }
 

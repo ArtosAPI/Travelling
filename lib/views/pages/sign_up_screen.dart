@@ -191,7 +191,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         builder: (_, AsyncSnapshot snap) {
                                           if (snap.connectionState ==
                                               ConnectionState.done) {
-                                            if (snap.data[0] == true) {
+                                            if (snap.data[0] == 'true') {
                                               Navigator.pop(context);
                                               //without delayed operation for some
                                               //time, there will be an error!
@@ -203,10 +203,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                               Navigator.pop(context);
                                               Future.delayed(Duration.zero, () {
                                                 ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                        const SnackBar(
-                                                  content:
-                                                      Text('No person found'),
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text(snap.data[0]),
                                                 ));
                                               });
                                             }
